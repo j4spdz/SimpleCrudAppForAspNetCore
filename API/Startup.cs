@@ -35,8 +35,10 @@ namespace API
     {
       services.AddDbContext<DataContext>(opt =>
       {
+        opt.UseLazyLoadingProxies();
         opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
       });
+
       services.AddCors(opt =>
       {
         opt.AddPolicy("CorsPolicy", policy =>
@@ -46,6 +48,7 @@ namespace API
             .WithOrigins("http://localhost:3000");
         });
       });
+
       services.AddMediatR(typeof(List.Handler).Assembly);
       services.AddControllers(opt =>
         {
