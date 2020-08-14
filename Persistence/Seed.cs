@@ -15,9 +15,9 @@ namespace Persistence
       {
         var users = new List<AppUser>{
           new AppUser{
-          DisplayName="Bob",
-          UserName="bob",
-          Email="bob@test.com"
+            DisplayName="Bob",
+            UserName="bob",
+            Email="bob@test.com"
           },
           new AppUser{
             DisplayName="Tom",
@@ -47,7 +47,7 @@ namespace Persistence
             Description = "Activity 2 months ago",
             Category = "drinks",
             City = "London",
-            Venue = "Pub",
+            Venue = "Pub"
           },
           new Activity
           {
@@ -133,7 +133,7 @@ namespace Persistence
         };
 
         context.Activities.AddRange(activities);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
       }
     }
   }
