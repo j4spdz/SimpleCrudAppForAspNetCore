@@ -5,6 +5,7 @@ using Application.Activities;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -33,6 +34,13 @@ namespace API.Controllers
     public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
     {
       command.Id = id;
+      return await Mediator.Send(command);
+    }
+
+    [HttpPatch("{id}")]
+    public async Task<ActionResult<Unit>> Patch(Guid id, [FromBody] JsonPatchDocument<Activity> patchDoc)
+    {
+      var command = new Patch.Command { Id = id, PatchDoc = patchDoc };
       return await Mediator.Send(command);
     }
 
