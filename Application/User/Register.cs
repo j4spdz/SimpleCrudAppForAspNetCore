@@ -2,15 +2,14 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Errors;
-using Application.Interfaces;
+using Application.Common.Interfaces;
+using Application.Common.Exceptions;
 using Application.Validators;
-using Domain;
+using Domain.Entities;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace Application.User
 {
@@ -37,11 +36,11 @@ namespace Application.User
 
     public class Handler : IRequestHandler<Command, User>
     {
-      private readonly DataContext _context;
+      private readonly IApplicationDbContext _context;
       private readonly UserManager<AppUser> _userManager;
       private readonly IJwtGenerator _jwtGenerator;
 
-      public Handler(DataContext context, UserManager<AppUser> userManager, IJwtGenerator jwtGenerator)
+      public Handler(IApplicationDbContext context, UserManager<AppUser> userManager, IJwtGenerator jwtGenerator)
       {
         _jwtGenerator = jwtGenerator;
         _userManager = userManager;

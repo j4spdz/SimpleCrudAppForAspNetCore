@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain;
+using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
-namespace Persistence
+namespace Infrastructure.Persistence
 {
   public class Seed
   {
-    public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
+    public static async Task SeedData(ApplicationDbContext context, UserManager<AppUser> userManager)
     {
       if (!userManager.Users.Any())
       {

@@ -1,10 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain;
+using Application.Common.Interfaces;
+using Domain.Entities;
 using FluentValidation;
 using MediatR;
-using Persistence;
 
 namespace Application.Activities
 {
@@ -36,9 +36,9 @@ namespace Application.Activities
 
     public class Handler : IRequestHandler<Command>
     {
-      private readonly DataContext _context;
+      private readonly IApplicationDbContext _context;
 
-      public Handler(DataContext context)
+      public Handler(IApplicationDbContext context)
       {
         _context = context;
       }
@@ -49,7 +49,7 @@ namespace Application.Activities
         _context.Entry(activity).CurrentValues.SetValues(request);
         _context.Activities.Add(activity);
 
-        var success = await _context.SaveChangesAsync() > 0;
+        var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
         if (success) return Unit.Value;
 

@@ -6,12 +6,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7"/>
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.7"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.7"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.7"/>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1"/>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7"/>
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0"/>
     <PackageReference Include="Serilog.Settings.Configuration" Version="*"/>
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="3.1.7"/>
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>

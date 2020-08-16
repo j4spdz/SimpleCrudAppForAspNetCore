@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Interfaces;
-using Domain;
+using Application.Common.Interfaces;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,20 +15,21 @@ namespace Application.User
     {
       private readonly UserManager<AppUser> _userManager;
       private readonly IJwtGenerator _jwtGenerator;
-      private readonly IUserAccessor _userAccessor;
+      private readonly ICurrentUserService _currentUserService;
 
-      public Handler(UserManager<AppUser> userManager, IJwtGenerator jwtGenerator,
-
-      IUserAccessor userAccessor)
+      public Handler(
+        UserManager<AppUser> userManager,
+        IJwtGenerator jwtGenerator,
+        ICurrentUserService currentUserService)
       {
-        _userAccessor = userAccessor;
+        _currentUserService = currentUserService;
         _jwtGenerator = jwtGenerator;
         _userManager = userManager;
       }
 
       public async Task<User> Handle(Query request, CancellationToken cancellationToken)
       {
-        var user = await _userManager.FindByNameAsync(_userAccessor.GetCurrentUsername());
+        var user = await _userManager.FindByNameAsync(_currentUserService.GetCurrentUsername());
         return new User
         {
           DisplayName = user.DisplayName,

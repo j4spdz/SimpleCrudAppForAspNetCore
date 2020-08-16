@@ -2,11 +2,11 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Errors;
-using Domain;
+using Application.Common.Interfaces;
+using Application.Common.Exceptions;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.JsonPatch;
-using Persistence;
 
 namespace Application.Activities
 {
@@ -20,9 +20,9 @@ namespace Application.Activities
 
     public class Handler : IRequestHandler<Command>
     {
-      private readonly DataContext _context;
+      private readonly IApplicationDbContext _context;
 
-      public Handler(DataContext context)
+      public Handler(IApplicationDbContext context)
       {
         _context = context;
       }
@@ -42,7 +42,7 @@ namespace Application.Activities
           throw new RestException(HttpStatusCode.BadRequest, $"Fail to apply patch: {error.ErrorMessage}");
         });
 
-        var success = await _context.SaveChangesAsync() > 0;
+        var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
         if (success) return Unit.Value;
 

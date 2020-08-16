@@ -1,13 +1,13 @@
 using System;
 using System.IO;
-using Domain;
+using Domain.Entities;
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Persistence;
 using Serilog;
 
 namespace API
@@ -35,7 +35,7 @@ namespace API
           var services = scope.ServiceProvider;
           try
           {
-            var context = services.GetRequiredService<DataContext>();
+            var context = services.GetRequiredService<ApplicationDbContext>();
             var userManager = services.GetRequiredService<UserManager<AppUser>>();
             context.Database.Migrate();
             Seed.SeedData(context, userManager).Wait();

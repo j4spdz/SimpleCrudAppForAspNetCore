@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj"/>
-    <ProjectReference Include="..\Persistence\Persistence.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.1"/>

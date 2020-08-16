@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Persistence.Migrations
+namespace Infrastructure.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -13,8 +13,10 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreateTime = table.Column<DateTime>(nullable: false),
-                    UpdateTime = table.Column<DateTime>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    LastModifiedBy = table.Column<string>(nullable: true),
+                    LastModified = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true),

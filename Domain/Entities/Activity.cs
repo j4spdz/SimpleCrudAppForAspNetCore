@@ -1,8 +1,9 @@
 using System;
+using Domain.Common;
 
-namespace Domain
+namespace Domain.Entities
 {
-  public class Activity : BaseModel
+  public class Activity : AuditableEntity
   {
     public string Title { get; set; }
     public string Description { get; set; }

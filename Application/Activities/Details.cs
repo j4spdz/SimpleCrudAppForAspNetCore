@@ -2,10 +2,10 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Errors;
-using Domain;
+using Application.Common.Interfaces;
+using Application.Common.Exceptions;
+using Domain.Entities;
 using MediatR;
-using Persistence;
 
 namespace Application.Activities
 {
@@ -18,8 +18,8 @@ namespace Application.Activities
 
     public class Handler : IRequestHandler<Query, Activity>
     {
-      private readonly DataContext _context;
-      public Handler(DataContext context)
+      private readonly IApplicationDbContext _context;
+      public Handler(IApplicationDbContext context)
       {
         _context = context;
       }
