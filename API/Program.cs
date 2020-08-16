@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -9,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Persistence;
+using Serilog;
 
 namespace API
 {
@@ -18,30 +16,59 @@ namespace API
   {
     public static void Main(string[] args)
     {
-      var host = CreateHostBuilder(args).Build();
+      var builder = new ConfigurationBuilder();
+      BuildConfig(builder);
 
-      using (var scope = host.Services.CreateScope())
+      Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Build())
+        .CreateLogger();
+
+      Serilog.Debugging.SelfLog.Enable(Console.Error);
+
+      try
       {
-        var services = scope.ServiceProvider;
-        try
-        {
-          var context = services.GetRequiredService<DataContext>();
-          var userManager = services.GetRequiredService<UserManager<AppUser>>();
-          context.Database.Migrate();
-          Seed.SeedData(context, userManager).Wait();
-        }
-        catch (Exception ex)
-        {
-          var logger = services.GetRequiredService<ILogger<Program>>();
-          logger.LogError(ex, "An error occured during migration");
-        }
-      }
+        Log.Logger.Information("Application Starting");
+        var host = CreateHostBuilder(args).Build();
 
-      host.Run();
+        using (var scope = host.Services.CreateScope())
+        {
+          var services = scope.ServiceProvider;
+          try
+          {
+            var context = services.GetRequiredService<DataContext>();
+            var userManager = services.GetRequiredService<UserManager<AppUser>>();
+            context.Database.Migrate();
+            Seed.SeedData(context, userManager).Wait();
+          }
+          catch (Exception ex)
+          {
+            Log.Error(ex, "An error occured during migration");
+          }
+        }
+
+        host.Run();
+      }
+      catch (Exception ex)
+      {
+        Log.Fatal(ex, "Application start-up failed");
+      }
+      finally
+      {
+        Log.CloseAndFlush();
+      }
+    }
+
+    private static void BuildConfig(IConfigurationBuilder builder)
+    {
+      builder.SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true, reloadOnChange: true)
+        .AddEnvironmentVariables();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
+            .UseSerilog()
             .ConfigureWebHostDefaults(webBuilder =>
             {
               webBuilder.UseStartup<Startup>();
