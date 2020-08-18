@@ -8,7 +8,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.JsonPatch;
 
-namespace Application.Activities
+namespace Application.Activities.Commands
 {
   public class Patch
   {

@@ -7,7 +7,7 @@ using Application.Common.Exceptions;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Activities
+namespace Application.Activities.Queries
 {
   public class Details
   {

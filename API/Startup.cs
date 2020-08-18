@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using API.Middleware;
 using API.Services;
 using Application;
-using Application.Activities;
+using Application.Activities.Commands;
 using Application.Common.Interfaces;
 using FluentValidation.AspNetCore;
 using Infrastructure;

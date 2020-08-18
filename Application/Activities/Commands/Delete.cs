@@ -6,7 +6,7 @@ using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using MediatR;
 
-namespace Application.Activities
+namespace Application.Activities.Commands
 {
   public class Delete
   {

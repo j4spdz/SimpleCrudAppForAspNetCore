@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application.Activities;
+using Application.Activities.Commands;
+using Application.Activities.Queries;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.JsonPatch;

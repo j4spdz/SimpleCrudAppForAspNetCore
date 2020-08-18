@@ -5,7 +5,7 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Application.User
+namespace Application.User.Queries
 {
   public class CurrentUser
   {

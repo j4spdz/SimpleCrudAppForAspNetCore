@@ -6,7 +6,7 @@ using Domain.Entities;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Activities
+namespace Application.Activities.Commands
 {
   public class Create
   {

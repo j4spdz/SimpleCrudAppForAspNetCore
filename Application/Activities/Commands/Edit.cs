@@ -7,7 +7,7 @@ using Application.Common.Exceptions;
 using FluentValidation;
 using MediatR;
 
-namespace Application.Activities
+namespace Application.Activities.Commands
 {
   public class Edit
   {

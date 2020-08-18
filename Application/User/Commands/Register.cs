@@ -11,7 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.User
+namespace Application.User.Commands
 {
   public class Register
   {
